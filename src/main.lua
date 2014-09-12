@@ -3,20 +3,32 @@ local app = {}
 
 
 ------------------------------------------------------------------------
-function love.load()
-    app.background = love.graphics.newImage("images/background.png")
-    app.foreground = love.graphics.newImage("images/xo.png")
-    app.tie = love.graphics.newImage("images/tie.png")
-    app.xquad = love.graphics.newQuad(0, 0, 174, 186, 348, 186)
-    app.oquad = love.graphics.newQuad(174, 0, 348, 186, 348, 186)
+function reset()
     app.board = tictactoe.newboard(app)
     app.current, app.next = "x", "o"
 end
 
 
 ------------------------------------------------------------------------
+function love.load()
+    app.background = love.graphics.newImage("images/background.png")
+    app.foreground = love.graphics.newImage("images/xo.png")
+    app.tie = love.graphics.newImage("images/tie.png")
+    app.xquad = love.graphics.newQuad(0, 0, 174, 186, 348, 186)
+    app.oquad = love.graphics.newQuad(174, 0, 348, 186, 348, 186)
+    reset()
+end
+
+
+------------------------------------------------------------------------
 function love.draw()
     app.board:draw()
+end
+
+
+------------------------------------------------------------------------
+function love.keyreleased(key)
+    if key == "escape" then reset() end
 end
 
 
