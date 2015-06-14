@@ -10,5 +10,6 @@
 *.zip
 .DS_Store
 .env
-tmp
 .idea
+/src/*.lua
+tmp
