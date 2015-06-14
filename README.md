@@ -4,3 +4,7 @@
 
 [TicTacToe](http://en.wikipedia.org/wiki/Tic-tac-toe) is one of the most
 classic games in the world.
+
+
+## Author
+[ℜodrigo Arĥimedeς ℳontegasppa ℭacilhας](mailto:batalema@cacilhas.info)

@@ -91,6 +91,7 @@ mrproper: clean
 	$(RM) $(DIST)
 
 
+.PHONY: test
 test: $(LUACODE)
 	$(LOVE) src
 
