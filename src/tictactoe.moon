@@ -1,12 +1,16 @@
+ffi = assert require "ffi"
+--------------------------------------------------------------------------------
+
+
 indexes = {
-    {1, 1, 3, 1}
-    {1, 2, 3, 2}
-    {1, 3, 3, 3}
-    {1, 1, 1, 3}
-    {2, 1, 2, 3}
-    {3, 1, 3, 3}
-    {1, 1, 3, 3}
-    {3, 1, 1, 3}
+    ffi.new "int[?]", 4, 1, 1, 3, 1
+    ffi.new "int[?]", 4, 1, 2, 3, 2
+    ffi.new "int[?]", 4, 1, 3, 3, 3
+    ffi.new "int[?]", 4, 1, 1, 1, 3
+    ffi.new "int[?]", 4, 2, 1, 2, 3
+    ffi.new "int[?]", 4, 3, 1, 3, 3
+    ffi.new "int[?]", 4, 1, 1, 3, 3
+    ffi.new "int[?]", 4, 3, 1, 1, 3
 }
 
 
@@ -78,10 +82,10 @@ class Board
                     .draw @app.tie, 0, 0
                 else
                     coords = indexes[index]
-                    x0 = (coords[1] - .5) * 200 + 16
-                    y0 = (coords[2] - .5) * 210 + 16
-                    x1 = (coords[3] - .5) * 200 + 16
-                    y1 = (coords[4] - .5) * 210 + 16
+                    x0 = (coords[0] - .5) * 200 + 16
+                    y0 = (coords[1] - .5) * 210 + 16
+                    x1 = (coords[2] - .5) * 200 + 16
+                    y1 = (coords[3] - .5) * 210 + 16
                     .setColor 0x00, 0x00, 0x00
                     .line x0, y0, x1, y1
                     .reset!
