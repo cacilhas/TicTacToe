@@ -1,4 +1,10 @@
 ffi = assert require "ffi"
+
+_VERSION = "1.1"
+_DESCRIPTION = "Tic-Tac-Toe game"
+_AUTHOR = "ℜodrigo Arĥimedeς ℳontegasppa ℭacilhας <batalema@cacilhas.info>"
+_URL = ""
+_LICENSE = "BSD 3-Clause License"
 --------------------------------------------------------------------------------
 
 
@@ -93,11 +99,10 @@ class Board
 
 --------------------------------------------------------------------------------
 {
-    _VERSION: "1.1"
-    _DESCRIPTION: "Tic-Tac-Toe game"
-    _AUTHOR: "ℜodrigo Arĥimedeς ℳontegasppa ℭacilhας <batalema@cacilhas.info>"
-    _URL: ""
-    _LICENSE: "BSD 3-Clause License"
-
+    :_VERSION
+    :_DESCRIPTION
+    :_AUTHOR
+    :_URL
+    :_LICENSE
     newboard: Board
 }
