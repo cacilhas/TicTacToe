@@ -86,10 +86,10 @@ class Board
                     .draw @app.tie, 0, 0
                 else
                     coords = indexes + ((index - 1) * 4)
-                    x0 = (coords[0] - .5) * 200 + 16
-                    y0 = (coords[1] - .5) * 210 + 16
-                    x1 = (coords[2] - .5) * 200 + 16
-                    y1 = (coords[3] - .5) * 210 + 16
+                    x0 = coords[0] * 200 - 84
+                    y0 = coords[1] * 210 - 89
+                    x1 = coords[2] * 200 - 84
+                    y1 = coords[3] * 210 - 89
                     .setColor 0x00, 0x00, 0x00
                     .line x0, y0, x1, y1
                     .reset!
