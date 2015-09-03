@@ -7,50 +7,58 @@ _URL = ""
 _LICENSE = "BSD 3-Clause License"
 --------------------------------------------------------------------------------
 
-indexes = ffi.new "int[?]", 8 * 4,
-    1, 1, 3, 1,
-    1, 2, 3, 2,
-    1, 3, 3, 3,
-    1, 1, 1, 3,
-    2, 1, 2, 3,
-    3, 1, 3, 3,
-    1, 1, 3, 3,
-    3, 1, 1, 3
+ffi.cdef [[
+    struct score {
+        bool done;
+        unsigned char value[8];
+    };
+]]
+
+
+positions = ffi.new "uint16_t[?]", 8 * 4,
+    116, 121, 516, 121,
+    116, 331, 516, 331,
+    116, 541, 516, 541,
+    116, 121, 116, 541,
+    316, 121, 316, 541,
+    516, 121, 516, 541,
+    116, 121, 516, 541,
+    516, 121, 116, 541
 
 
 --------------------------------------------------------------------------------
 class Board
     finished: false
-    _m: nil
 
     new: (app) =>
         @app = app
-        @[i] = 0 for i = 1, 9
+        @board = ffi.new "unsigned char[?]", 9
+        @map = ffi.new "struct score"
 
-    get: (x, y) => @[(y - 1) * 3 + x]
+    get: (x, y) => @board[(y - 1) * 3 + x - 1]
 
     set: (x, y, value) =>
-        @[(y - 1) * 3 + x] = value
-        @_m = nil
+        @board[(y - 1) * 3 + x - 1] = value
+        @map.done = false
 
     checkend: =>
-        if not @_m
-            @_m = {
-                @[1] * @[2] * @[3]
-                @[4] * @[5] * @[6]
-                @[7] * @[8] * @[9]
-                @[1] * @[4] * @[7]
-                @[2] * @[5] * @[8]
-                @[3] * @[6] * @[9]
-                @[1] * @[5] * @[9]
-                @[3] * @[5] * @[7]
-            }
+        if not @map.done
+            @map.value[0] = @board[0] * @board[1] * @board[2]
+            @map.value[1] = @board[3] * @board[4] * @board[5]
+            @map.value[2] = @board[6] * @board[7] * @board[8]
+            @map.value[3] = @board[0] * @board[3] * @board[6]
+            @map.value[4] = @board[1] * @board[4] * @board[7]
+            @map.value[5] = @board[2] * @board[5] * @board[8]
+            @map.value[6] = @board[0] * @board[4] * @board[8]
+            @map.value[7] = @board[2] * @board[4] * @board[6]
 
         last = 1
-        for i, s in ipairs @_m
+        for i = 1, 8
+            s = @map.value[i - 1]
             return true, "x", i if s == 1
             return true, "o", i if s == 8
             last *= s
+        @map.done = true
         if last > 0 then true, "v" else false
 
     toggle: (xo, x, y) =>
@@ -85,13 +93,9 @@ class Board
                 if win == "v"
                     .draw @app.tie, 0, 0
                 else
-                    coords = indexes + ((index - 1) * 4)
-                    x0 = coords[0] * 200 - 84
-                    y0 = coords[1] * 210 - 89
-                    x1 = coords[2] * 200 - 84
-                    y1 = coords[3] * 210 - 89
+                    coords = positions + ffi.new "size_t", (index - 1) * 4
                     .setColor 0x00, 0x00, 0x00
-                    .line x0, y0, x1, y1
+                    .line coords[0], coords[1], coords[2], coords[3]
                     .reset!
 
 
