@@ -12,6 +12,12 @@ ffi.cdef [[
         bool done;
         unsigned char value[8];
     };
+
+    enum valid_move {
+        move_none = 0,
+        move_X = 1,
+        move_O = 2
+    };
 ]]
 
 
@@ -26,13 +32,16 @@ positions = ffi.new "uint16_t[?]", 8 * 4,
     516, 121, 116, 541
 
 
+C = ffi.C
+
+
 --------------------------------------------------------------------------------
 class Board
     finished: false
 
     new: (app) =>
         @app = app
-        @board = ffi.new "unsigned char[?]", 9
+        @board = ffi.new "enum valid_move[?]", 9
         @map = ffi.new "struct score"
 
     get: (x, y) => @board[(y - 1) * 3 + x - 1]
@@ -51,6 +60,7 @@ class Board
             @map.value[5] = @board[2] * @board[5] * @board[8]
             @map.value[6] = @board[0] * @board[4] * @board[8]
             @map.value[7] = @board[2] * @board[4] * @board[6]
+        @map.done = true
 
         last = 1
         for i = 1, 8
@@ -58,7 +68,6 @@ class Board
             return true, "x", i if s == 1
             return true, "o", i if s == 8
             last *= s
-        @map.done = true
         if last > 0 then true, "v" else false
 
     toggle: (xo, x, y) =>
@@ -67,10 +76,10 @@ class Board
         elseif (@\get x, y) != 0
             false  -- out of board
         elseif xo == "x"
-            @\set(x, y, 1)
+            @\set(x, y, C.move_X)
             true
         elseif xo == "o"
-            @\set(x, y, 2)
+            @\set(x, y, C.move_O)
             true
         else
             false  -- WTF?
@@ -81,9 +90,9 @@ class Board
             for y = 1, 3
                 for x = 1, 3
                     cur = @\get x, y
-                    unless cur == 0
+                    unless cur == C.move_none
                         .draw @app.foreground,
-                              if cur == 1 then @app.xquad else @app.oquad,
+                              if cur == C.move_X then @app.xquad else @app.oquad,
                               (x - 1) * 200 + 16,
                               (y - 1) * 210 + 16
 
