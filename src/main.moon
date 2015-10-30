@@ -15,9 +15,9 @@ love.load = ->
     with love.graphics
         app.background = .newImage "images/background.png"
         app.foreground = .newImage "images/xo.png"
-        app.tie = .newImage "images/tie.png"
-        app.xquad = .newQuad 0, 0, 174, 186, 348, 186
-        app.oquad = .newQuad 174, 0, 348, 186, 348, 186
+        app.tie        = .newImage "images/tie.png"
+        app.xquad      = .newQuad  0, 0, 174, 186, 348, 186
+        app.oquad      = .newQuad  174, 0, 348, 186, 348, 186
     reset!
 
 
