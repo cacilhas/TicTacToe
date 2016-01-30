@@ -1,7 +1,8 @@
+local *
 tictactoe = assert require "tictactoe"
 import floor from math
 
-app = {}
+app = :nil
 
 
 --------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ love.keyreleased = (key) -> reset! if key == "escape"
 
 --------------------------------------------------------------------------------
 love.mousereleased = (x, y, button) ->
-    if button == "l"
+    if button == 1
         rx = 1 + floor x / 200
         ry = 1 + floor y / 210
         if app.board\toggle app.current, rx, ry

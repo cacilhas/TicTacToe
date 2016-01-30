@@ -1,3 +1,4 @@
+local *
 ffi = assert require "ffi"
 
 _VERSION = "1.1"
@@ -5,8 +6,9 @@ _DESCRIPTION = "Tic-Tac-Toe game"
 _AUTHOR = "ℜodrigo Arĥimedeς ℳontegasppa ℭacilhας <batalema@cacilhas.info>"
 _URL = ""
 _LICENSE = "BSD 3-Clause License"
---------------------------------------------------------------------------------
 
+
+--------------------------------------------------------------------------------
 ffi.cdef [[
     struct score {
         bool done;
@@ -52,14 +54,16 @@ class Board
 
     checkend: =>
         if not @map.done
-            @map.value[0] = @board[0] * @board[1] * @board[2]
-            @map.value[1] = @board[3] * @board[4] * @board[5]
-            @map.value[2] = @board[6] * @board[7] * @board[8]
-            @map.value[3] = @board[0] * @board[3] * @board[6]
-            @map.value[4] = @board[1] * @board[4] * @board[7]
-            @map.value[5] = @board[2] * @board[5] * @board[8]
-            @map.value[6] = @board[0] * @board[4] * @board[8]
-            @map.value[7] = @board[2] * @board[4] * @board[6]
+            @map.value = {
+                @board[0] * @board[1] * @board[2]
+                @board[3] * @board[4] * @board[5]
+                @board[6] * @board[7] * @board[8]
+                @board[0] * @board[3] * @board[6]
+                @board[1] * @board[4] * @board[7]
+                @board[2] * @board[5] * @board[8]
+                @board[0] * @board[4] * @board[8]
+                @board[2] * @board[4] * @board[6]
+            }
         @map.done = true
 
         last = 1
